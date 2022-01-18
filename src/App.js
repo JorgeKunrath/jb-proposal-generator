@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { proposals } from "./data";
+
 const Header = styled.div`
   border: 2px solid blue;
   text-align: center;
@@ -15,14 +17,6 @@ const Card = styled.a`
   border: 2px solid black;
   font-weight: 1.5rem;
 `;
-
-const proposals = [
-  { title: "title 1", emoji: "😀", model: "title-1" },
-  { title: "title 2", emoji: "😁", model: "title-2" },
-  { title: "title 3", emoji: "😚", model: "title-3" },
-  { title: "title 4", emoji: "🤐", model: "title-4" },
-  { title: "title 5", emoji: "😎", model: "title-5" }
-];
 
 export default function App() {
   return (

@@ -1,13 +1,16 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
-
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 import App from "./App";
+import { proposals } from "./data";
 
-const Demo = () => (
+const ProposalPage = ({ proposal }) => (
   <>
     <Link to="/">voltar</Link>
+    <div>
+      <h1>{proposal.emoji + proposal.title}</h1>
+    </div>
   </>
 );
 
@@ -17,7 +20,12 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/title-1" element={<Demo />} />
+        {proposals.map((proposal) => (
+          <Route
+            path={`/${proposal.model}`}
+            element={<ProposalPage proposal={proposal} />}
+          />
+        ))}
       </Routes>
     </BrowserRouter>
   </StrictMode>,
