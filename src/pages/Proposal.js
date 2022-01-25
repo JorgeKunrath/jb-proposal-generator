@@ -53,8 +53,20 @@ export default function Proposal({ proposal }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // TODO: validate form (?)
-
+    const invalidFields = proposal.fields
+      .filter((element) => {
+        if (!values[element.name]) {
+          if (!values.check[element.name]) {
+            return true;
+          }
+        }
+        return false;
+      })
+      .map((element) => element.name);
+    if (!invalidFields.lenght) {
+      alert(invalidFields.join(", ") + " are not filled or setted as 'empty'");
+      return;
+    }
     navigate("/review");
   };
 
