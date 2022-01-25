@@ -59,11 +59,14 @@ export default function Proposal({ proposal }) {
         return false;
       })
       .map((element) => element.name);
-    if (!invalidFields.lenght) {
+
+    console.log("invalidFields", invalidFields);
+
+    if (invalidFields.length) {
       alert(invalidFields.join(", ") + " are not filled or setted as 'empty'");
-      return;
+    } else {
+      navigate("/review");
     }
-    navigate("/review");
   };
 
   const handleInputChange = (e, f) => {

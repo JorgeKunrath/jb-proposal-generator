@@ -63,7 +63,7 @@ const fields = {
     type: "textarea"
   },
   "what-help-might-be-needed-from-juicebox-dao-and-its-members": {
-    name: "",
+    name: "what-help-might-be-needed-from-juicebox-dao-and-its-members",
     label: "What help might be needed from Juicebox DAO and its members?",
     type: "textarea"
   },
