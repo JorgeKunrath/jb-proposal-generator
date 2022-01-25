@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { proposals } from "../data";
 import useData from "../useData";
@@ -32,7 +32,7 @@ export default function Home() {
           <Card
             key={proposal.model}
             onClick={() => setTemplate(proposal.model)}
-            to={proposal.model}
+            to={"proposal/" + proposal.model}
           >
             {proposal.emoji} - {proposal.title}
           </Card>

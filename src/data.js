@@ -1,31 +1,23 @@
+// titulo, autor, resumo, risks e data são campos obrigatórios e globais
+
 export const fields = {
   author: {
     name: "author",
     label: "Author",
     desc: "Author's name.",
-    type: "text",
-    required: true
-  },
-  "proposal-date": {
-    name: "proposal-date",
-    label: "Proposal date",
-    // desc: "123",
-    type: "datepicker",
-    required: true
+    type: "text"
   },
   summary: {
     name: "summary",
     label: "Summary",
     desc: "Provide a comprehensive 1-2 sentence summary of your proposal.",
-    type: "textarea",
-    required: true
+    type: "textarea"
   },
   risks: {
     name: "risks",
     label: "Risks",
     desc: "List any potential risks for Juicebox DAO and its members.",
-    type: "textarea",
-    required: false
+    type: "textarea"
   }
 };
 
@@ -39,12 +31,13 @@ export const proposals = [
     model: "funding-cycle-reconfiguration",
     desc:
       "As new ideas regarding JuiceboxDAO's operations and fiscal strategy emerge, contributors are encouraged to formalize them into a proposal so that they can be discussed.",
-    fields: [f.author, f["proposal-date"], f.risks, f.summary]
+    fields: [f.author, f.risks, f.summary]
   },
   {
     title: "Trial Payment",
     emoji: "🌱",
-    model: "trial-payment"
+    model: "trial-payment",
+    fields: [f.author, f.risks, f.summary]
   },
   {
     title: "Recurring Payment",

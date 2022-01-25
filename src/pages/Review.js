@@ -70,6 +70,7 @@ export default function Review() {
 
   return (
     <Wrapper>
+      <Link to="/">Home</Link>
       <h1>Review page</h1>
       <h3>{template}</h3>
       {(proposal?.fields ?? []).map((field) => (

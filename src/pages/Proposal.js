@@ -1,11 +1,32 @@
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useData from "../useData";
 
 const typeToComp = {
-  text: (f) => <input name={f.name} type="text" />,
-  datepicker: (f) => <input name={f.name} type="date" />,
-  textarea: (f) => <textarea name={f.name} />
+  text: (f, handleInputChange, values) => (
+    <input
+      name={f.name}
+      onChange={(e) => handleInputChange(e, f)}
+      value={values[f.name] ?? ""}
+      type="text"
+    />
+  ),
+  // datepicker: (f, handleInputChange, values) => (
+  //   <input
+  //     name={f.name}
+  //     onChange={(e) => handleInputChange(e, f)}
+  //     value={values[f.name] ?? ''}
+  //     type="date"
+  //   />
+  // ),
+  textarea: (f, handleInputChange, values) => (
+    <textarea
+      name={f.name}
+      onChange={(e) => handleInputChange(e, f)}
+      value={values[f.name] ?? ""}
+    />
+  )
 };
 
 const FieldWrapper = styled.div`
@@ -23,17 +44,31 @@ const Label = styled.label`
 //    allow to empty state
 
 export default function Proposal({ proposal }) {
-  const { setValues } = useData();
+  const { values, setValues } = useData();
 
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    let data = Object.fromEntries(formData.entries());
-    setValues((values) => ({ ...values, ...data }));
+
+    // TODO: validate form (?)
 
     navigate("/review");
+  };
+
+  const handleInputChange = (e, f) => {
+    const { value } = e.target;
+    const { name } = f;
+    setValues((values) => ({ ...values, [name]: value }));
+  };
+
+  const handleCheckbox = (f) => (e) => {
+    console.log("checkbox event::", e);
+    const oldValue = values.check[f.name];
+    setValues((values) => ({
+      ...values,
+      check: { ...values.check, [f.name]: !oldValue }
+    }));
   };
 
   return (
@@ -49,9 +84,17 @@ export default function Proposal({ proposal }) {
             <Label>
               <strong>{f.label}</strong>
               {f.desc}
-              {typeToComp[f.type]?.(f)}
+              {typeToComp[f.type]?.(f, handleInputChange, values)}
             </Label>
-            {f.required ? "required" : "[ ] empty"}
+            <label>
+              <input
+                type="checkbox"
+                name={`check-${f.name}`}
+                checked={values?.check?.[f.name] ? 1 : 0}
+                onChange={handleCheckbox(f)}
+              />
+              Empty
+            </label>
           </FieldWrapper>
         ))}
         <button type="submit">Send</button>
