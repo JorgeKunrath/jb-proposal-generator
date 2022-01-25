@@ -1,16 +1,15 @@
-
 const commonFields = {
   author: {
     name: "author",
     label: "Author",
     desc: "Author's name.",
-    type: "text",
+    type: "text"
   },
   "proposal-date": {
     name: "proposal-date",
     label: "Proposal date",
     // desc: "123",
-    type: "datepicker",
+    type: "datepicker"
   },
   summary: {
     name: "summary",
@@ -284,6 +283,6 @@ export const proposals = [
     title: "Default",
     emoji: "📃",
     model: "default",
-    fields: [
+    fields: []
   }
 ];
