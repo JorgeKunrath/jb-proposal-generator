@@ -46,7 +46,10 @@ export default function Proposal({ proposal }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const invalidFields = proposal.fields
+    const invalidFields = [
+      ...Object.values(commonFields),
+      ...(proposal.fields ?? [])
+    ]
       .filter((element) => {
         if (!values[element.name]) {
           if (!values.check[element.name]) {
