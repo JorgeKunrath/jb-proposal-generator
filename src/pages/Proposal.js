@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { commonFields } from "../data";
 import useData from "../useData";
 
 const typeToComp = {
@@ -12,14 +13,6 @@ const typeToComp = {
       type="text"
     />
   ),
-  // datepicker: (f, handleInputChange, values) => (
-  //   <input
-  //     name={f.name}
-  //     onChange={(e) => handleInputChange(e, f)}
-  //     value={values[f.name] ?? ''}
-  //     type="date"
-  //   />
-  // ),
   textarea: (f, handleInputChange, values) => (
     <textarea
       name={f.name}
@@ -79,24 +72,26 @@ export default function Proposal({ proposal }) {
         {proposal.desc && <h3>{proposal.desc}</h3>}
       </div>
       <form onSubmit={handleSubmit}>
-        {(proposal.fields ?? []).map((f) => (
-          <FieldWrapper key={f.label}>
-            <Label>
-              <strong>{f.label}</strong>
-              {f.desc}
-              {typeToComp[f.type]?.(f, handleInputChange, values)}
-            </Label>
-            <label>
-              <input
-                type="checkbox"
-                name={`check-${f.name}`}
-                checked={values?.check?.[f.name] ? 1 : 0}
-                onChange={handleCheckbox(f)}
-              />
-              Empty
-            </label>
-          </FieldWrapper>
-        ))}
+        {[...Object.values(commonFields), ...(proposal.fields ?? [])].map(
+          (f) => (
+            <FieldWrapper key={f.label}>
+              <Label>
+                <strong>{f.label}</strong>
+                {f.desc}
+                {typeToComp[f.type]?.(f, handleInputChange, values)}
+              </Label>
+              <label>
+                <input
+                  type="checkbox"
+                  name={`check-${f.name}`}
+                  checked={values?.check?.[f.name] ? 1 : 0}
+                  onChange={handleCheckbox(f)}
+                />
+                Empty
+              </label>
+            </FieldWrapper>
+          )
+        )}
         <button type="submit">Send</button>
       </form>
     </>
