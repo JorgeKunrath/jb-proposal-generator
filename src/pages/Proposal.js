@@ -8,6 +8,7 @@ const typeToComp = {
   text: (f, handleInputChange, values) => (
     <input
       name={f.name}
+      disabled={values.check[f.name] ? 1 : 0}
       onChange={(e) => handleInputChange(e, f)}
       value={values[f.name] ?? ""}
       type="text"
@@ -16,6 +17,7 @@ const typeToComp = {
   textarea: (f, handleInputChange, values) => (
     <textarea
       name={f.name}
+      disabled={values.check[f.name] ? 1 : 0}
       onChange={(e) => handleInputChange(e, f)}
       value={values[f.name] ?? ""}
     />
@@ -44,8 +46,23 @@ export default function Proposal({ proposal }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // TODO: validate form (?)
-
+    const invalidFields = [
+      ...Object.values(commonFields),
+      ...(proposal.fields ?? [])
+    ]
+      .filter((element) => {
+        if (!values[element.name]) {
+          if (!values.check[element.name]) {
+            return true;
+          }
+        }
+        return false;
+      })
+      .map((element) => element.name);
+    if (!invalidFields.lenght) {
+      alert(invalidFields.join(", ") + " are not filled or setted as 'empty'");
+      return;
+    }
     navigate("/review");
   };
 
