@@ -12,7 +12,18 @@ export const GlobalContext = createContext();
 
 export default function App() {
   const [template, setTemplate] = useState("");
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({
+    check: {}
+  });
+
+  // set a proposal if page opened directly
+  useEffect(() => {
+    const { pathname } = window.location;
+    if (pathname.includes("proposal/")) {
+      const proposal = pathname.replace("/proposal/", "");
+      setTemplate(proposal);
+    }
+  }, []);
 
   useEffect(() => {
     console.log("template", template);
@@ -30,11 +41,11 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/review" element={<Review />} />
+            <Route path="review" element={<Review />} />
             {proposals.map((proposal) => (
               <Route
                 key={proposal.model}
-                path={`/${proposal.model}`}
+                path={`proposal/${proposal.model}`}
                 element={<Proposal proposal={proposal} />}
               />
             ))}
