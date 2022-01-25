@@ -7,6 +7,7 @@ const typeToComp = {
   text: (f, handleInputChange, values) => (
     <input
       name={f.name}
+      disabled={values.check[f.name] ? 1 : 0}
       onChange={(e) => handleInputChange(e, f)}
       value={values[f.name] ?? ""}
       type="text"
@@ -23,6 +24,7 @@ const typeToComp = {
   textarea: (f, handleInputChange, values) => (
     <textarea
       name={f.name}
+      disabled={values.check[f.name] ? 1 : 0}
       onChange={(e) => handleInputChange(e, f)}
       value={values[f.name] ?? ""}
     />
