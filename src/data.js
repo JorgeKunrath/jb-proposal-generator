@@ -1,32 +1,28 @@
+
 const commonFields = {
   author: {
     name: "author",
     label: "Author",
     desc: "Author's name.",
     type: "text",
-    required: true
-    type: "text"
   },
   "proposal-date": {
     name: "proposal-date",
     label: "Proposal date",
     // desc: "123",
     type: "datepicker",
-    required: true
   },
   summary: {
     name: "summary",
     label: "Summary",
     desc: "Provide a comprehensive 1-2 sentence summary of your proposal.",
-    type: "textarea",
-    required: true
+    type: "textarea"
   },
   risks: {
     name: "risks",
     label: "Risks",
     desc: "List any potential risks for Juicebox DAO and its members.",
-    type: "textarea",
-    required: false
+    type: "textarea"
   }
 };
 
@@ -287,6 +283,7 @@ export const proposals = [
   {
     title: "Default",
     emoji: "📃",
-    model: "default"
+    model: "default",
+    fields: [
   }
 ];
