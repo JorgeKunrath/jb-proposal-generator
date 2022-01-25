@@ -2,7 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useData from "../useData";
 
-import { proposals } from "../data";
+import { commonFields, proposals } from "../data";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   display: grid;
@@ -25,14 +26,22 @@ const Wrapper = styled.div`
 export default function Review() {
   const { template, values } = useData();
 
+  const navigate = useNavigate();
+
   const proposal = proposals.find((prop) => prop.model === template);
   console.log("this proposal", proposal);
   console.log("this values", values);
 
-  const hanldleExport = () => {};
+  // Redirects to homepage if there's no template to render
+  //   e.g. open directly
+  useEffect(() => {
+    if (!proposal) {
+      navigate("/");
+    }
+  }, [proposal, navigate]);
 
   const getMDContent = () => {
-    return (proposal?.fields ?? [])
+    return [...Object.values(commonFields), ...(proposal.fields ?? [])]
       .map(
         ({ label, desc, name }) =>
           `### ${label}\n_${desc && desc}_\n\n${values[name]}`
@@ -68,18 +77,22 @@ export default function Review() {
     return window.URL.createObjectURL(data);
   };
 
+  if (!proposal) return null;
+
   return (
     <Wrapper>
       <Link to="/">Home</Link>
       <h1>Review page</h1>
       <h3>{template}</h3>
-      {(proposal?.fields ?? []).map((field) => (
-        <div>
-          <h4>{field.label}</h4>
-          {field.desc && <h5>{field.desc}</h5>}
-          {values[field.name]}
-        </div>
-      ))}
+      {[...Object.values(commonFields), ...(proposal.fields ?? [])].map(
+        (field) => (
+          <div>
+            <h4>{field.label}</h4>
+            {field.desc && <h5>{field.desc}</h5>}
+            {values[field.name]}
+          </div>
+        )
+      )}
 
       <hr />
 
