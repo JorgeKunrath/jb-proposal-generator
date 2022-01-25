@@ -1,15 +1,9 @@
-const commonFields = {
+export const commonFields = {
   author: {
     name: "author",
     label: "Author",
     desc: "Author's name.",
     type: "text"
-  },
-  "proposal-date": {
-    name: "proposal-date",
-    label: "Proposal date",
-    // desc: "123",
-    type: "datepicker"
   },
   summary: {
     name: "summary",
@@ -25,6 +19,11 @@ const commonFields = {
   }
 };
 
+// key: enum name, used only in this file's context
+// name: input's name attribute. used to match fields across proposals
+// label: input's title
+// type: key to a enum that render different types of inputs
+// desc?: description bellow label
 const fields = {
   "what-is-the-goal-of-this-proposal": {
     name: "what-is-the-goal-of-this-proposal",
