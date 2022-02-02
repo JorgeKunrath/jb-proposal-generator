@@ -21,6 +21,14 @@ const Wrapper = styled.div`
   h5 {
     margin: 0;
   }
+
+  h4 {
+    font-size: 1.5rem;
+  }
+
+  .is-empty {
+    text-decoration: line-through;
+  }
 `;
 
 export default function Review() {
@@ -45,10 +53,14 @@ export default function Review() {
 
   const getMDContent = () => {
     return [...Object.values(commonFields), ...(proposal.fields ?? [])]
-      .map(
-        ({ label, desc, name }) =>
-          `### ${label}\n_${desc && desc}_\n\n${getValue(name)}`
-      )
+      .map(({ label, desc, name }) => {
+        const empty = valuesRef.current.check[name] ? "~~" : "";
+        const description = desc ? `\n__${desc}__` : "";
+
+        return `### ${empty}${label}${empty}${description}\n\n${getValue(
+          name
+        )}`;
+      })
       .join("\n\n\n");
   };
 
@@ -69,7 +81,11 @@ export default function Review() {
       {[...Object.values(commonFields), ...(proposal.fields ?? [])].map(
         (field) => (
           <div>
-            <h4>{field.label}</h4>
+            <h4
+              className={valuesRef.current.check[field.name] ? "is-empty" : ""}
+            >
+              {field.label}
+            </h4>
             {field.desc && <h5>{field.desc}</h5>}
             {getValue(field.name)}
           </div>
