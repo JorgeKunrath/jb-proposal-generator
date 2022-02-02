@@ -49,27 +49,6 @@ export default function Review() {
       .join("\n\n\n");
   };
 
-  // const getDownloadLink = () => {
-  //   const makeTextFile = (text) => {
-  //     const data = new Blob([text], { type: "text/plain" });
-
-  //     return window.URL.createObjectURL(data);
-  //   };
-
-  //   var create = document.getElementById("create");
-  //   var textbox = document.getElementById("textbox");
-
-  //   create.addEventListener(
-  //     "click",
-  //     function () {
-  //       var link = document.getElementById("downloadlink");
-  //       link.href = makeTextFile(textbox.value);
-  //       link.style.display = "block";
-  //     },
-  //     false
-  //   );
-  // };
-
   const getFileUrl = (text) => {
     const data = new File([text], "Proposal.md", {
       type: "text/plain"
@@ -89,12 +68,10 @@ export default function Review() {
           <div>
             <h4>{field.label}</h4>
             {field.desc && <h5>{field.desc}</h5>}
-            {values[field.name]}
+            {values.check[field.name] ? "<empty>" : values[field.name]}
           </div>
         )
       )}
-
-      <hr />
 
       <a
         href={getFileUrl(getMDContent())}

@@ -1,45 +1,12 @@
-import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+
+import Field from "../components/Field";
+import Header from "../components/Header";
 import { commonFields } from "../data";
 import useData from "../useData";
 
-const typeToComp = {
-  text: (f, handleInputChange, values) => (
-    <input
-      name={f.name}
-      disabled={values.check[f.name] ? 1 : 0}
-      onChange={(e) => handleInputChange(e, f)}
-      value={values[f.name] ?? ""}
-      type="text"
-    />
-  ),
-  textarea: (f, handleInputChange, values) => (
-    <textarea
-      name={f.name}
-      disabled={values.check[f.name] ? 1 : 0}
-      onChange={(e) => handleInputChange(e, f)}
-      value={values[f.name] ?? ""}
-    />
-  )
-};
-
-const FieldWrapper = styled.div`
-  margin-bottom: 2rem;
-`;
-
-const Label = styled.label`
-  display: flex;
-  flex-direction: column;
-`;
-
-// TODO:
-// save chosen template
-// save state in a global object
-//    allow to empty state
-
 export default function Proposal({ proposal }) {
-  const { values, setValues } = useData();
+  const { valuesRef } = useData();
 
   const navigate = useNavigate();
 
@@ -50,70 +17,44 @@ export default function Proposal({ proposal }) {
       ...Object.values(commonFields),
       ...(proposal.fields ?? [])
     ]
-      .filter((element) => {
-        if (!values[element.name]) {
-          if (!values.check[element.name]) {
+      .filter((field) => {
+        if (!valuesRef[field.name]) {
+          if (!valuesRef.check[field.name]) {
             return true;
           }
         }
         return false;
       })
-      .map((element) => element.name);
-
-    console.log("invalidFields", invalidFields);
+      .map((field) => field.name);
 
     if (invalidFields.length) {
-      alert(invalidFields.join(", ") + " are not filled or setted as 'empty'");
+      alert(
+        `All fields need to be fullfiled or be marked as empty. Fields that need revision:\n\n${invalidFields
+          .join(";\n")
+          .replaceAll("_", " ")}.`
+      );
     } else {
       navigate("/review");
     }
   };
 
-  const handleInputChange = (e, f) => {
-    const { value } = e.target;
-    const { name } = f;
-    setValues((values) => ({ ...values, [name]: value }));
-  };
-
-  const handleCheckbox = (f) => (e) => {
-    console.log("checkbox event::", e);
-    const oldValue = values.check[f.name];
-    setValues((values) => ({
-      ...values,
-      check: { ...values.check, [f.name]: !oldValue }
-    }));
-  };
-
   return (
-    <>
+    <div className="site-container">
+      <Header />
       <Link to="/">voltar</Link>
       <div>
         <h1>{proposal.emoji + proposal.title}</h1>
         {proposal.desc && <h3>{proposal.desc}</h3>}
       </div>
-      <form onSubmit={handleSubmit}>
-        {[...Object.values(commonFields), ...(proposal.fields ?? [])].map(
-          (f) => (
-            <FieldWrapper key={f.label}>
-              <Label>
-                <strong>{f.label}</strong>
-                {f.desc}
-                {typeToComp[f.type]?.(f, handleInputChange, values)}
-              </Label>
-              <label>
-                <input
-                  type="checkbox"
-                  name={`check-${f.name}`}
-                  checked={values?.check?.[f.name] ? 1 : 0}
-                  onChange={handleCheckbox(f)}
-                />
-                Empty
-              </label>
-            </FieldWrapper>
-          )
-        )}
+      <form onSubmit={handleSubmit} key={proposal.title}>
+        {Object.values(commonFields).map((field) => (
+          <Field key={field.name} field={field} isOptional={false} />
+        ))}
+        {(proposal.fields ?? []).map((field) => (
+          <Field key={field.name} field={field} isOptional={true} />
+        ))}
         <button type="submit">Send</button>
       </form>
-    </>
+    </div>
   );
 }

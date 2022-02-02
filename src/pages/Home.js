@@ -3,11 +3,7 @@ import { Link } from "react-router-dom";
 
 import { proposals } from "../data";
 import useData from "../useData";
-
-const Header = styled.div`
-  border: 2px solid blue;
-  text-align: center;
-`;
+import Header from "../components/Header";
 
 const Grid = styled.section`
   display: grid;
@@ -16,17 +12,34 @@ const Grid = styled.section`
 `;
 
 const Card = styled(Link)`
-  border: 2px solid black;
+  border: 2px solid var(--brand-orange);
+  padding: 0.5rem;
+  padding-right: 1rem;
   font-weight: 1.5rem;
+  line-height: 1.5rem;
+
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+
+  span {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+    padding: 0.5rem 0;
+  }
 `;
 
 export default function Home() {
   const { setTemplate } = useData();
 
   return (
-    <div>
-      <Header>JB</Header>
-      <h1>Bem vindo ao gerador de propostas da Juice Box etc</h1>
+    <div className="site-container">
+      <Header />
+      <h1>Welcome to Lab108's proposal generator for Juicebox governance</h1>
+      <p>
+        Choose a proposal type bellow to write your own. If you are not sure
+        what type to start with, choose `Default`
+      </p>
       <Grid>
         {proposals.map((proposal) => (
           <Card
@@ -34,10 +47,21 @@ export default function Home() {
             onClick={() => setTemplate(proposal.model)}
             to={"proposal/" + proposal.model}
           >
-            {proposal.emoji} - {proposal.title}
+            <span>{proposal.emoji}</span>
+            {proposal.title}
           </Card>
         ))}
       </Grid>
+      <p>
+        If you have any doubts, reach out on our{" "}
+        <a
+          href="https://discord.gg/MUKCYFYJkW"
+          target="_blank"
+          rel="noreferrer"
+        >
+          discord server
+        </a>
+      </p>
     </div>
   );
 }
