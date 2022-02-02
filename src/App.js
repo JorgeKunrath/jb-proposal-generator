@@ -12,8 +12,6 @@ import Home from "./pages/Home";
 import Proposal from "./pages/Proposal";
 import Review from "./pages/Review";
 
-import { fields } from "./data";
-
 import { proposals } from "./data";
 
 export const GlobalContext = createContext();
@@ -55,10 +53,8 @@ const NotFound = styled.div`
 export default function App() {
   const [template, setTemplate] = useState("");
   const valuesRef = useRef({
-    // ...Object.values(fields).map(field => ({[field.name]: ''})),
     ...DEMO_DEFAULT_VALUES,
     check: {
-      // ...Object.values(fields).map(field => ({[field.name]: false})),
       ...DEMO_DEFAULT_CHECK
     }
   });

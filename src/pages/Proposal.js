@@ -18,8 +18,8 @@ export default function Proposal({ proposal }) {
       ...(proposal.fields ?? [])
     ]
       .filter((field) => {
-        if (!valuesRef[field.name]) {
-          if (!valuesRef.check[field.name]) {
+        if (!valuesRef.current[field.name]) {
+          if (!valuesRef.current.check[field.name]) {
             return true;
           }
         }

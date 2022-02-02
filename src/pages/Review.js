@@ -24,13 +24,13 @@ const Wrapper = styled.div`
 `;
 
 export default function Review() {
-  const { template, values } = useData();
+  const { template, valuesRef } = useData();
 
   const navigate = useNavigate();
 
   const proposal = proposals.find((prop) => prop.model === template);
   console.log("this proposal", proposal);
-  console.log("this values", values);
+  console.log("this values", valuesRef.current);
 
   // Redirects to homepage if there's no template to render
   //   e.g. open directly
@@ -40,11 +40,14 @@ export default function Review() {
     }
   }, [proposal, navigate]);
 
+  const getValue = (name) =>
+    valuesRef.current.check[name] ? "<empty>" : valuesRef.current[name];
+
   const getMDContent = () => {
     return [...Object.values(commonFields), ...(proposal.fields ?? [])]
       .map(
         ({ label, desc, name }) =>
-          `### ${label}\n_${desc && desc}_\n\n${values[name]}`
+          `### ${label}\n_${desc && desc}_\n\n${getValue(name)}`
       )
       .join("\n\n\n");
   };
@@ -68,7 +71,7 @@ export default function Review() {
           <div>
             <h4>{field.label}</h4>
             {field.desc && <h5>{field.desc}</h5>}
-            {values.check[field.name] ? "<empty>" : values[field.name]}
+            {getValue(field.name)}
           </div>
         )
       )}

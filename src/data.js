@@ -25,7 +25,7 @@ export const commonFields = {
 // type: key to a enum that render different types of inputs
 // desc?: description bellow label
 
-export const fields = {
+const fields = {
   what_is_the_goal_of_this_proposal: {
     name: "what_is_the_goal_of_this_proposal",
     label: "What is the goal of this proposal?",
