@@ -1,4 +1,9 @@
 export const commonFields = {
+  title: {
+    name: "title",
+    label: "Title",
+    type: "text"
+  },
   author: {
     name: "author",
     label: "Author",

@@ -17,6 +17,7 @@ import { proposals } from "./data";
 export const GlobalContext = createContext();
 
 const DEMO_DEFAULT_VALUES = {
+  title: "my tytle",
   author: "autor",
   summary: "sumario",
   risks: "riscos",

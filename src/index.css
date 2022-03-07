@@ -97,7 +97,6 @@ code {
 
   clip-path: polygon(0% 0% 100% 100%);
   transform: scale(0);
-  transform-origin: bottom left;
   transition: 120ms transform ease-in-out;
   box-shadow: inset 1rem 1rem var(--brand-blue);
   /* Windows High Contrast Mode */
@@ -105,7 +104,7 @@ code {
 }
 
 .custom-checkbox input[type="checkbox"]:checked::before {
-  transform: scale(1);
+  transform: scale(1, 1);
 }
 
 .custom-checkbox input[type="checkbox"]:focus {

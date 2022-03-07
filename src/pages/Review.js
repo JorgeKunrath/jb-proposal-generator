@@ -4,10 +4,12 @@ import useData from "../useData";
 
 import { commonFields, proposals } from "../data";
 import { useEffect } from "react";
+import Button from "../components/Button";
 
 const Wrapper = styled.div`
   display: grid;
   grid-gap: 1rem;
+  padding-bottom: 4rem;
 
   h4 {
     font-size: 2rem;
@@ -49,10 +51,17 @@ export default function Review() {
   }, [proposal, navigate]);
 
   const getValue = (name) =>
-    valuesRef.current.check[name] ? "<empty>" : valuesRef.current[name];
+    valuesRef.current.check[name] ? "__empty__" : valuesRef.current[name];
 
   const getMDContent = () => {
-    return [...Object.values(commonFields), ...(proposal.fields ?? [])]
+    const header = `# ${valuesRef.current?.title}\n\n${proposal.emoji} ${
+      proposal.title
+    } - ${new Date().toISOString().split("T")[0]}`;
+
+    const fieldsStr = [
+      ...Object.values(commonFields),
+      ...(proposal.fields ?? [])
+    ]
       .map(({ label, desc, name }) => {
         const empty = valuesRef.current.check[name] ? "~~" : "";
         const description = desc ? `\n__${desc}__` : "";
@@ -62,6 +71,8 @@ export default function Review() {
         )}`;
       })
       .join("\n\n\n");
+
+    return `${header}\n\n${fieldsStr}`;
   };
 
   const getFileUrl = (text) => {
@@ -74,13 +85,14 @@ export default function Review() {
   if (!proposal) return null;
 
   return (
-    <Wrapper>
+    <Wrapper className="site-container">
       <Link to="/">Home</Link>
+      <Link to={"/proposal/" + proposal.model}>Back to edit mode</Link>
       <h1>Review page</h1>
       <h3>{template}</h3>
       {[...Object.values(commonFields), ...(proposal.fields ?? [])].map(
         (field) => (
-          <div>
+          <div key={field.name}>
             <h4
               className={valuesRef.current.check[field.name] ? "is-empty" : ""}
             >
@@ -92,13 +104,14 @@ export default function Review() {
         )
       )}
 
-      <a
+      <Link to={"/proposal/" + proposal.model}>Back to edit mode</Link>
+      <Button
+        as="a"
         href={getFileUrl(getMDContent())}
-        download="Proposal.md"
-        id="downloadlink"
+        download={`${valuesRef.current?.title}.md`}
       >
         Download
-      </a>
+      </Button>
     </Wrapper>
   );
 }

@@ -1,9 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import Button from "../components/Button";
 
 import Field from "../components/Field";
 import Header from "../components/Header";
 import { commonFields } from "../data";
 import useData from "../useData";
+
+const Wrapper = styled.div`
+  padding-bottom: 4rem;
+`;
 
 export default function Proposal({ proposal }) {
   const { valuesRef } = useData();
@@ -39,12 +45,12 @@ export default function Proposal({ proposal }) {
   };
 
   return (
-    <div className="site-container">
+    <Wrapper className="site-container">
       <Header />
       <Link to="/">voltar</Link>
       <div>
         <h1>{proposal.emoji + proposal.title}</h1>
-        {proposal.desc && <h3>{proposal.desc}</h3>}
+        {proposal.desc && <p style={{ opacity: 0.7 }}>{proposal.desc}</p>}
       </div>
       <form onSubmit={handleSubmit} key={proposal.title}>
         {Object.values(commonFields).map((field) => (
@@ -53,8 +59,8 @@ export default function Proposal({ proposal }) {
         {(proposal.fields ?? []).map((field) => (
           <Field key={field.name} field={field} isOptional={true} />
         ))}
-        <button type="submit">Send</button>
+        <Button type="submit">Review</Button>
       </form>
-    </div>
+    </Wrapper>
   );
 }
