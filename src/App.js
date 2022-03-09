@@ -54,10 +54,7 @@ const NotFound = styled.div`
 export default function App() {
   const [template, setTemplate] = useState("");
   const valuesRef = useRef({
-    ...DEMO_DEFAULT_VALUES,
-    check: {
-      ...DEMO_DEFAULT_CHECK
-    }
+    check: {}
   });
 
   console.log("valuesRef", valuesRef.current);
